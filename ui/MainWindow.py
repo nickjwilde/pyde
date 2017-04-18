@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QMainWindow
 
-from .menus import Menu
-from .menus import MenuBar
-from .Action import Action
+from ui.menus import Menu
+from ui.menus import MenuBar
+from ui.Action import Action
 from core import slots
-from .editor import TabWidget
+from ui.editor import TabWidget
 
 
 class MainWindow(QMainWindow):
@@ -21,6 +21,6 @@ class MainWindow(QMainWindow):
     def create_menus(self):
         file_menu = Menu("File", self.menuBar())
         new_file_action = Action("New", self)
-        new_file_action.triggered.connect(slots.file_new)
+        new_file_action.triggered.connect(lambda: slots.file_new(self))
         file_menu.addAction(new_file_action)
         self.menuBar().addMenu(file_menu)

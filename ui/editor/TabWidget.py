@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QTabWidget
 
-from .TextEdit import TextEdit
+from ui.editor import TextEdit
 
 class TabWidget(QTabWidget):
 
