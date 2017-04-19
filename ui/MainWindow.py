@@ -17,6 +17,7 @@ class MainWindow(QMainWindow):
         file_menu.addAction(self.create_file_new_action())
         file_menu.addAction(self.create_file_exit_action())
         return file_menu
+
     def create_file_exit_action(self):
         exit_file_action = Action("Exit", self)
         exit_file_action.triggered.connect(QApplication.quit)
