@@ -8,14 +8,19 @@ class TabWidget(QTabWidget):
     def __init__(self, parent=None):
         """ Constructor that takes a parent widget as an optional parameter """
         super(TabWidget, self).__init__(parent)
-        self.setup()
+        self.init_ui()
 
-    def on_tab_closing(index):
+    def on_tab_closing(self, index):
         """ Function to handle when a tab is closed """
+        if index >= 0:
+            self.removeTab(index)
+        else:
+            raise IndexError
         pass
 
-    def setup(self):
+    def init_ui(self):
         """ Some initial settings for the TabWidget """
         self.setTabsClosable(True)
         self.setMovable(True)
         self.setTabShape(QTabWidget.Triangular)
+        self.tabCloseRequested.connect(lambda: self.on_tab_closing(self.currentIndex()))

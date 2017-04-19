@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         """ Constructor that takes a parent widget as an optional parameter """
         super(MainWindow, self).__init__(parent)
-        self.setup()
+        self.init_ui()
 
     def create_file_menu(self):
         file_menu = Menu("File", self.menuBar())
@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         """ Initializes and creates the menus for the application """
         self.menuBar().addMenu(self.create_file_menu())
 
-    def setup(self):
+    def init_ui(self):
         """ Some startup processes for the MainWindow class """
         self.setCentralWidget(TabWidget(self))
         self.setMenuBar(MenuBar(self))
