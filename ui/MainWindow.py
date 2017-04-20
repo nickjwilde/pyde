@@ -42,4 +42,4 @@ class MainWindow(QMainWindow):
     #slots
     def file_new(self):
         tab_widget = self.centralWidget()
-        tab_widget.addTab(TextEdit("", tab_widget), "new %s" % str(tab_widget.count() + 1))
+        tab_widget.addTab(TextEdit("", tab_widget), "new %s" % tab_widget.next_tab_number)
