@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from ui.menus import Menu, MenuBar
 from ui.Action import Action
 from ui.editor import TabWidget, TextEdit
+from ui.dialogs import FileDialog, MessageBox
 
 
 class MainWindow(QMainWindow):
@@ -14,19 +15,15 @@ class MainWindow(QMainWindow):
 
     def create_file_menu(self):
         file_menu = Menu("File", self.menuBar())
-        file_menu.addAction(self.create_file_new_action())
-        file_menu.addAction(self.create_file_exit_action())
+        file_menu.addAction(self.create_action("New", self.file_new))
+        file_menu.addAction(self.create_action("Save", self.save_file))
+        file_menu.addAction(self.create_action("Exit", QApplication.quit))
         return file_menu
 
-    def create_file_exit_action(self):
-        exit_file_action = Action("Exit", self)
-        exit_file_action.triggered.connect(QApplication.quit)
-        return exit_file_action
-
-    def create_file_new_action(self):
-        new_file_action = Action("New", self)
-        new_file_action.triggered.connect(self.file_new)
-        return new_file_action
+    def create_action(self, text, callback):
+        action = Action(text, self)
+        action.triggered.connect(callback)
+        return action
 
     def create_menus(self):
         """ Initializes and creates the menus for the application """
@@ -43,3 +40,11 @@ class MainWindow(QMainWindow):
     def file_new(self):
         tab_widget = self.centralWidget()
         tab_widget.addTab(TextEdit("", tab_widget), "new %s" % tab_widget.next_tab_number)
+
+    def save_file(self):
+        tab_widget = self.centralWidget()
+        if tab_widget.currentIndex() == -1:
+            mb = MessageBox("No open file. Can't save file", tab_widget)
+            mb.exec_()
+        else:
+            FileDialog.getSaveFileName(self, "Save File", "", "Python Files (*.py *.pyw)")
