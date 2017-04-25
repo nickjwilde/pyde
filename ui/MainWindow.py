@@ -1,3 +1,5 @@
+﻿import os
+
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
 from ui.menus import Menu, MenuBar
@@ -47,4 +49,19 @@ class MainWindow(QMainWindow):
             mb = MessageBox("No open file. Can't save file", tab_widget)
             mb.exec_()
         else:
-            FileDialog.getSaveFileName(self, "Save File", "", "Python Files (*.py *.pyw)")
+            save_file_dialog = FileDialog(self)
+            save_file_dialog.setWindowTitle("Save File")
+            save_file_dialog.setNameFilter("Python files (*.py *.pyw)")
+            save_file_dialog.setAcceptMode(FileDialog.AcceptSave)
+            save_file_dialog.fileSelected.connect(self.save_file_selected)
+            save_file_dialog.exec_()
+
+    def save_file_selected(self, file_name):
+        if file_name:
+            text_edit = self.centralWidget().currentWidget()
+            with open(file_name, 'w') as f:
+                f.write(text_edit.toPlainText())
+            self.centralWidget().setTabText(self.centralWidget().currentIndex(), os.path.split(file_name)[-1])
+        else:
+            mb = MessageBox("No file name specified", self.centralWidget())
+            mb.exec_()
