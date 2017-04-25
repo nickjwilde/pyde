@@ -1,6 +1,7 @@
-from functools import partial
+﻿from functools import partial
 from PyQt5.QtWidgets import QTabWidget, QPushButton
 
+from ui import MainWindow
 from ui.editor import TextEdit
 from ui.dialogs import MessageBox
 
@@ -43,12 +44,11 @@ class TabWidget(QTabWidget):
                 save_prompt = MessageBox("This document has modified changes that haven't been saved. Do you want to save changes?", self)
 
                 save_button = QPushButton("Save", self)
-                save_prompt.addButton(save_button, MessageBox.YesRole)
-                save_prompt.addButton("Cancel", MessageBox.RejectRole)
-                save_prompt.addButton("Close Without Saving", MessageBox.NoRole)
-                save_prompt.setDefaultButton(save_button)
-                self.save_prompt_finish(save_prompt.exec_())
-            self.removeTab(index)
+                save_prompt.setStandardButtons(MessageBox.Save | MessageBox.Discard | MessageBox.Cancel)
+                save_prompt.setDefaultButton(MessageBox.Save)
+                self.handle_save_prompt_result(save_prompt.exec_())
+            else:
+                self.removeTab(index)
         else:
             raise IndexError
 
@@ -59,13 +59,11 @@ class TabWidget(QTabWidget):
         self.setTabShape(QTabWidget.Triangular)
         self.tabCloseRequested.connect(self.on_tab_closing)
 
-    def save_prompt_finish(self, result):
-        if result == MessageBox.YesRole:
-            print('saving')
-        elif result == MessageBox.NoRole:
-            print('Nope, not saving')
-        elif result == MessageBox.RejectRole:
-            print('Rejectamundo, or just cancelled')
+    def handle_save_prompt_result(self, result):
+        if result == MessageBox.Save:
+            self.parentWidget().save_file()
+        elif result == MessageBox.Discard:
+            self.removeTab(self.currentIndex())
 
     def tabInserted(self, index):
         tab_text = self.tabText(index)

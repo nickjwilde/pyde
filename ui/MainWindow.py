@@ -1,12 +1,10 @@
 ﻿import os
-
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
 from ui.menus import Menu, MenuBar
 from ui.Action import Action
 from ui.editor import TabWidget, TextEdit
 from ui.dialogs import FileDialog, MessageBox
-
 
 class MainWindow(QMainWindow):
     """ Class to contain logic for QMainWindow object """
@@ -62,6 +60,7 @@ class MainWindow(QMainWindow):
             with open(file_name, 'w') as f:
                 f.write(text_edit.toPlainText())
             self.centralWidget().setTabText(self.centralWidget().currentIndex(), os.path.split(file_name)[-1])
+            self.centralWidget().currentWidget().document().setModified(False)
         else:
             mb = MessageBox("No file name specified", self.centralWidget())
             mb.exec_()
