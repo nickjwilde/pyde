@@ -19,5 +19,8 @@ class TextEdit(QTextEdit):
     def keyPressEvent(self, key_event):
         if key_event.key() == Qt.Key_Tab:
             self.insertPlainText(' ' * 4)
+        elif key_event.key() == Qt.Key_Return:
+            previous_text = self.document().findBlockByNumber(self.textCursor().blockNumber()).text()
+            return super().keyPressEvent(key_event)
         else:
             return super().keyPressEvent(key_event)
