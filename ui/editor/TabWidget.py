@@ -1,5 +1,6 @@
 ﻿from functools import partial
 from PyQt5.QtWidgets import QTabWidget, QPushButton
+from PyQt5.QtCore import Qt
 
 from ui import MainWindow
 from ui.editor import TextEdit
@@ -20,6 +21,7 @@ class TabWidget(QTabWidget):
         self.init_ui()
 
     def set_next_tab_number(self):
+        """ Sets the next tab number for new text edit tabs """
         if len(self._new_tab_numbers) == 0:
             self._next_tab_number = 1
         else:
@@ -29,8 +31,6 @@ class TabWidget(QTabWidget):
                 self._next_tab_number = max(self._new_tab_numbers) + 1
             else:
                 self._next_tab_number = min(missing)
-            
-        
 
     @property
     def next_tab_number(self):
@@ -60,12 +60,14 @@ class TabWidget(QTabWidget):
         self.tabCloseRequested.connect(self.on_tab_closing)
 
     def handle_save_prompt_result(self, result):
+        """ Gets called when the save prompt has been handled """
         if result == MessageBox.Save:
             self.parentWidget().save_file()
         elif result == MessageBox.Discard:
             self.removeTab(self.currentIndex())
 
     def tabInserted(self, index):
+        """ Fired when a tab is inserted. Overridden part of Qt framework """
         tab_text = self.tabText(index)
         if "new" in tab_text:
             self._new_tab_numbers.append(int(tab_text.split()[-1]))
@@ -75,6 +77,7 @@ class TabWidget(QTabWidget):
             super().tabInserted(index)
 
     def tabRemoved(self, index):
+        """ Fired when a tab is removed. Overridden part of Qt framework """
         tab_text = self._deleted_tab_text
         if "new" in tab_text:
             self._new_tab_numbers.remove(int(tab_text.split()[-1]))

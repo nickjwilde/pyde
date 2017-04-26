@@ -1,5 +1,6 @@
 ﻿import os
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QShortcut 
+from PyQt5.QtGui import QKeySequence
 
 from ui.menus import Menu, MenuBar
 from ui.Action import Action
@@ -10,14 +11,14 @@ class MainWindow(QMainWindow):
     """ Class to contain logic for QMainWindow object """
     def __init__(self, parent=None):
         """ Constructor that takes a parent widget as an optional parameter """
-        super(MainWindow, self).__init__(parent)
+        super().__init__(parent)
         self.init_ui()
 
     def create_file_menu(self):
-        file_menu = Menu("File", self.menuBar())
-        file_menu.addAction(self.create_action("New", self.file_new))
-        file_menu.addAction(self.create_action("Save", self.save_file))
-        file_menu.addAction(self.create_action("Exit", QApplication.quit))
+        file_menu = Menu("&File", self.menuBar())
+        file_menu.addAction(self.create_action("&New", self.file_new))
+        file_menu.addAction(self.create_action("&Save (Ctrl+S)", self.save_file))
+        file_menu.addAction(self.create_action("E&xit", QApplication.quit))
         return file_menu
 
     def create_action(self, text, callback):
@@ -34,6 +35,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(TabWidget(self))
         self.setMenuBar(MenuBar(self))
         self.create_menus()
+        self.shortcut = QShortcut(QKeySequence("Ctrl+S"), self)
+        self.shortcut.activated.connect(self.save_file)
         self.showMaximized()
 
     #slots

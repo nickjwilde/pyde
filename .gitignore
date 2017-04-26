@@ -88,3 +88,4 @@ ENV/
 # Rope project settings
 .ropeproject
 pyde.pyproj
+pyde.v12.suo
