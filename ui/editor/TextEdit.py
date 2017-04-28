@@ -1,8 +1,17 @@
-﻿from PyQt5.QtWidgets import QTextEdit
+﻿import re
+from PyQt5.QtWidgets import QTextEdit
 from PyQt5.QtGui import QFontMetrics
 from PyQt5.QtCore import Qt
 
 from .Highlighter import PythonHighlighter
+
+tab_enabled_keywords = [
+r'\bdef\b',
+r'\bclass\b',
+r'\bfor\w+:',
+r'\bwhile\b',
+r'\bwith\b'
+]
 
 class TextEdit(QTextEdit):
 
@@ -20,7 +29,12 @@ class TextEdit(QTextEdit):
         if key_event.key() == Qt.Key_Tab:
             self.insertPlainText(' ' * 4)
         elif key_event.key() == Qt.Key_Return:
-            previous_text = self.document().findBlockByNumber(self.textCursor().blockNumber()).text()
+            current_text = self.document().findBlockByNumber(self.textCursor().blockNumber()).text()
+            for kwd in tab_enabled_keywords:
+                if re.match(kwd, current_text):
+                    super().keyPressEvent(key_event)
+                    self.insertPlainText(' ' * 4)
+                    return
             return super().keyPressEvent(key_event)
         else:
             return super().keyPressEvent(key_event)
