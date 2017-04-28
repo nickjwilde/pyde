@@ -7,13 +7,18 @@ from ui.editor import TabWidget, TextEdit
 from ui.dialogs import FileDialog, MessageBox
 
 class MainWindow(QMainWindow):
+
     """ Class to contain logic for QMainWindow object """
+
     def __init__(self, parent=None):
+
         """ Constructor that takes a parent widget as an optional parameter """
-        super(MainWindow, self).__init__(parent)
+
+        super().__init__(parent)
         self.init_ui()
 
     def create_file_menu(self):
+
         file_menu = Menu("File", self.menuBar())
         file_menu.addAction(self.create_action("New", self.file_new))
         file_menu.addAction(self.create_action("Save", self.save_file))
@@ -30,7 +35,9 @@ class MainWindow(QMainWindow):
         self.menuBar().addMenu(self.create_file_menu())
 
     def init_ui(self):
+
         """ Some startup processes for the MainWindow class """
+
         self.setCentralWidget(TabWidget(self))
         self.setMenuBar(MenuBar(self))
         self.create_menus()

@@ -1,4 +1,4 @@
 # Module file
-from .MainWindow import MainWindow
-from .menus.MenuBar import MenuBar
-from .Action import Action
+from ui.MainWindow import MainWindow
+from ui.menus.MenuBar import MenuBar
+from ui.Action import Action
