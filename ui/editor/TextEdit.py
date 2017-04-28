@@ -2,7 +2,7 @@
 from PyQt5.QtGui import QFontMetrics
 from PyQt5.QtCore import Qt
 
-from .Highlighter import PyHighlighter
+from .Highlighter import PythonHighlighter
 
 class TextEdit(QTextEdit):
 
@@ -14,7 +14,7 @@ class TextEdit(QTextEdit):
         self.setUndoRedoEnabled(True)
         self.setFontFamily("Consolas")
         self.setFontPointSize(10)
-        py_highlighter = PyHighlighter(self.document())
+        py_highlighter = PythonHighlighter(self.document())
 
     def keyPressEvent(self, key_event):
         if key_event.key() == Qt.Key_Tab:
