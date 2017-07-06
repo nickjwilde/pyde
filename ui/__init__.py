@@ -1,2 +1,1 @@
-# Module file
-from ui.MainWindow import MainWindow
+from .main_window import MainWindow

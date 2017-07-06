@@ -1,10 +1,10 @@
 ﻿import sys
 from PyQt5.QtWidgets import QApplication
 
-from ui.MainWindow import MainWindow
+from ui import MainWindow
 
 # Main startup file
 app = QApplication(sys.argv)
-m = MainWindow()
-m.show()
+main_window = MainWindow()
+main_window.show()
 app.exec_()
