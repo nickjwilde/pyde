@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QMainWindow, QAction,
                              QShortcut, QApplication)
 from PyQt5.QtGui import QKeySequence
 
-from ui.tab_widget import TabWidget
+from .tab_widget import TabWidget
 from helpers.handlers import action_handlers
 
 def create_action(title, key_sequence, callback, parent, *args):

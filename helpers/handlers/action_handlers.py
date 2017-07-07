@@ -1,3 +1,5 @@
+from ui.text_edit import TextEdit
+
 def save_file(main_window=None):
     pass
 

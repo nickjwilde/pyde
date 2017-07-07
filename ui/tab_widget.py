@@ -2,6 +2,8 @@
 from PyQt5.QtWidgets import QTabWidget, QPushButton, QMessageBox
 from PyQt5.QtCore import Qt
 
+from helpers.handlers import action_handlers
+
 class TabWidget(QTabWidget):
     """ Class to handle functionality for the TabWidget """
 
@@ -37,7 +39,8 @@ class TabWidget(QTabWidget):
         if index >= 0:
             self._deleted_tab_text = self.tabText(index)
             if(self.currentWidget().document().isModified()):
-                save_prompt = QMessageBox("This document has modified changes that haven't been saved. Do you want to save changes?", self)
+                save_prompt = QMessageBox(self)
+                save_prompt.setText("This document has modified changes that haven't been saved. Do you want to save changes?")
 
                 save_button = QPushButton("Save", self)
                 save_prompt.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
@@ -58,7 +61,7 @@ class TabWidget(QTabWidget):
     def handle_save_prompt_result(self, result):
         """ Gets called when the save prompt has been handled """
         if result == QMessageBox.Save:
-            self.parentWidget().save_file()
+            action_handlers.save_file(self.parentWidget())
         elif result == QMessageBox.Discard:
             self.removeTab(self.currentIndex())
 
